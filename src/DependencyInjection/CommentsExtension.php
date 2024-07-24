@@ -7,8 +7,9 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
+use Symfony\Component\Filesystem\Path;
 
-class BreadcrumbExtension extends Extension implements PrependExtensionInterface 
+class CommentsExtension extends Extension implements PrependExtensionInterface 
 {
 	/**
 	 * Bundle configuration Injection
@@ -20,10 +21,6 @@ class BreadcrumbExtension extends Extension implements PrependExtensionInterface
 	 */
 	public function load(array $configs, ContainerBuilder $container)
     {
-		// dump("do on load");
-		// dump($this->getAlias());
-
-
 		// Default Config
 		// --
 		
@@ -34,7 +31,7 @@ class BreadcrumbExtension extends Extension implements PrependExtensionInterface
 		// Bundle config location
 		// --
 		
-		$locator = new FileLocator(__DIR__.'/../../config');
+		$locator = new FileLocator(Path::join(__DIR__, "/../../", "config"));
 		$loader = new YamlFileLoader($container, $locator);
 		
 
@@ -57,7 +54,7 @@ class BreadcrumbExtension extends Extension implements PrependExtensionInterface
         // --
 
         $twigConfig = [];
-        $twigConfig['paths'][__DIR__.'/../../templates'] = "Breadcrumb";
+        $twigConfig['paths'][Path::join(__DIR__, "/../../", "templates")] = "Comments";
 
         $container->prependExtensionConfig('twig', $twigConfig);
     }
