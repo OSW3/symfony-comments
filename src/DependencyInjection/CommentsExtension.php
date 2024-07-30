@@ -54,7 +54,14 @@ class CommentsExtension extends Extension implements PrependExtensionInterface
         // --
 
         $twigConfig = [];
-        $twigConfig['paths'][Path::join(__DIR__, "/../../", "templates")] = "Comments";
+
+		// Expose the templates directory
+		$templateDirectoryPath = Path::join(__DIR__, "/../../", "templates");
+
+		if (is_dir($templateDirectoryPath))
+		{
+			$twigConfig['paths'][$templateDirectoryPath] = "Comments";
+		}
 
         $container->prependExtensionConfig('twig', $twigConfig);
     }
